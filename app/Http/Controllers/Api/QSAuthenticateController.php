@@ -70,8 +70,10 @@ class QSAuthenticateController extends QSApiController
 
         if ($user) {
 
+            return $this->authenticate($phone, $pwd);
             return array('code' => self::SUCCESS, 'user_id' => $user->id);
-        } else {
+        }
+        else {
             return array('code' => self::ERROR_LOGIN_FAILED, 'message' => self::MESAGE_LOGIN_FAILED);
         }
 

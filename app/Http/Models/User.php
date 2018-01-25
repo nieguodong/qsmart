@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'phone', 'password',
     ];
 
     /**
@@ -28,10 +28,15 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public static function test() {
-
-        return true;
+    public function findForPassport($login) {
+        return User::orWhere('email', $login)->orWhere('mobile', $login)->first();
     }
+
+   /* public function findForPassport($login)
+    {
+        return $this->orWhere('phone', $login)->first();
+    }*/
+
 
    /* public function findForPassport($login)
     {
