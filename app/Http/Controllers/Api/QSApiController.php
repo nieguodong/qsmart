@@ -9,13 +9,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Traits\QSAuthHelper;
+use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 
 
 class QSApiController extends Controller
 {
-    use QSAuthHelper, QSApiResponse;
+    use Helpers;
 
     const SUCCESS = '0';
 

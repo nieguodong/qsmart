@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable, HasApiTokens;
 
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'phone', 'password',
+        'phone', 'password','weixin_openid', 'weixin_unionid',
     ];
 
     /**
@@ -25,23 +26,20 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
     ];
 
-    public function findForPassport($login) {
-        return User::orWhere('email', $login)->orWhere('mobile', $login)->first();
+    public function getJWTIdentifier()
+    {
+        // TODO: Implement getJWTIdentifier() method.
+        return $this->getKey();
     }
 
-   /* public function findForPassport($login)
+    public function getJWTCustomClaims()
     {
-        return $this->orWhere('phone', $login)->first();
-    }*/
-
-
-   /* public function findForPassport($login)
-    {
-        return $this->orWhere('email', $login)->orWhere('name', $login)->first();
-    }*/
+        // TODO: Implement getJWTCustomClaims() method.
+        return [];
+    }
 
 
 }

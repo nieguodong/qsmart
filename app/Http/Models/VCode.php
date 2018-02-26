@@ -4,7 +4,9 @@ namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+
 use App\ThirdLibrary\Ucpaas;
+
 
 class VCode extends Model
 {
@@ -15,7 +17,7 @@ class VCode extends Model
     const APPID = '1a8b0c5629cc4bfaa404f349d90c0abf';
     const TEMPLATEID = '66819';
 
-    const REGISTER = 0;
+    const REGISTER = 1;
 
     /**
      * 将验证码添加到数据库
@@ -24,11 +26,10 @@ class VCode extends Model
      */
     public static function requestVCode($phone=null,$type=null){
 
-        if(VCode::is_mobile($phone)){
             $data['phone'] = $phone;
             $data['vcode'] = VCode::get_rand_str();
             //$data['content'] = '您的验证码为：'.$data['vcode'].'，30分钟内有效。';
-            $data['time_add'] = time();
+            $data['time_added'] = time();
             if($type){
                 $data['type'] = $type;
             }
@@ -36,10 +37,7 @@ class VCode extends Model
             DB::table('vcodes')->insertGetId($data);
             self::sendSms($phone, $data['vcode']);
 
-            return array('code' => '0');
-        }else{
-            return array('code' => '1006');
-        }
+            return $data['vcode'];//array('code' => '0');
     }
 
     /**
@@ -86,7 +84,8 @@ class VCode extends Model
         $templateId = VCode::TEMPLATEID;
         $param = $code;
 
-        $ucpass->templateSMS($appId,$to,$templateId,$param);
+       // $ucpass->templateSMS($appId,$to,$templateId,$param);
+        $ucpass->SendSms($appId, $templateId, $param, $to, "");
     }
 
     /**
@@ -122,8 +121,5 @@ class VCode extends Model
         return $ret;
     }
 
-    public static function test() {
 
-        return true;
-    }
 }
