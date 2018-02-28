@@ -5,6 +5,8 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+use App\Http\Controllers\Api\ExceptionReport;
+
 class Handler extends ExceptionHandler
 {
     /**
